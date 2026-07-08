@@ -1,1 +1,49 @@
-<p>login works!</p>
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="logo">
+
+            <h1>HelpDesk Pro</h1>
+
+            <p>Sistema de Gerenciamento de Chamados</p>
+
+        </div>
+
+        <form
+            [formGroup]="loginForm"
+            (ngSubmit)="entrar()">
+
+            <div class="campo">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    formControlName="email"
+                    placeholder="Digite seu email">
+
+            </div>
+
+            <div class="campo">
+
+                <label>Senha</label>
+
+                <input
+                    type="password"
+                    formControlName="senha"
+                    placeholder="Digite sua senha">
+
+            </div>
+
+            <button type="submit">
+
+                Entrar
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
