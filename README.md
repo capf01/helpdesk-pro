@@ -1,59 +1,266 @@
-# HelpdeskPro
+# 🎫 HelpDesk Pro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.18.
+<p align="center">
+  <img src="https://img.shields.io/badge/Angular-21-DD0031?style=for-the-badge&logo=angular&logoColor=white">
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img src="https://img.shields.io/badge/Angular_Material-UI-009688?style=for-the-badge&logo=angular">
+  <img src="https://img.shields.io/badge/License-MIT-success?style=for-the-badge">
+</p>
 
-## Development server
+<p align="center">
+A modern Help Desk platform built with Angular for managing technical support tickets.
+</p>
 
-To start a local development server, run:
+---
+
+# 📖 About
+
+**HelpDesk Pro** is a technical support management system developed with Angular and TypeScript.
+
+The application simulates a real corporate Help Desk environment, allowing users to create, track and manage support tickets through an intuitive dashboard. The project demonstrates modern Angular architecture, reusable components, reactive forms, route protection and scalable application design.
+
+This repository is part of my software engineering portfolio and showcases my skills in building modern Full Stack applications.
+
+---
+
+# ✨ Features
+
+* ✅ User authentication
+* ✅ Dashboard
+* ✅ Create tickets
+* ✅ Edit tickets
+* ✅ Delete tickets
+* ✅ Ticket details
+* ✅ Ticket status management
+* ✅ Priority levels
+* ✅ Categories
+* ✅ Search and filters
+* ✅ Responsive layout
+* 🚧 File attachments
+* 🚧 Notifications
+* 🚧 Reports
+* 🚧 REST API Integration
+
+---
+
+# 🛠 Tech Stack
+
+| Technology       | Description         |
+| ---------------- | ------------------- |
+| Angular 21       | Front-end Framework |
+| TypeScript       | Main language       |
+| Angular Material | UI Components       |
+| Reactive Forms   | Form validation     |
+| HTML5            | Markup              |
+| CSS3             | Styling             |
+| LocalStorage     | Local persistence   |
+
+---
+
+# 📂 Project Structure
+
+```text
+src
+│
+├── app
+│   ├── auth
+│   ├── dashboard
+│   ├── tickets
+│   ├── users
+│   ├── services
+│   ├── guards
+│   ├── shared
+│   ├── models
+│   ├── pipes
+│   └── components
+│
+├── assets
+└── environments
+```
+
+---
+
+# 📸 Screenshots
+
+## Login
+
+> Coming soon
+
+---
+
+## Dashboard
+
+> Coming soon
+
+---
+
+## Ticket Management
+
+> Coming soon
+
+---
+
+# 🚀 Getting Started
+
+## Clone the repository
+
+```bash
+git clone https://github.com/capf01/helpdesk-pro.git
+```
+
+## Navigate to the project
+
+```bash
+cd helpdesk-pro
+```
+
+## Install dependencies
+
+```bash
+npm install
+```
+
+## Run the application
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+# 🎯 Roadmap
+
+## Version 1.0
+
+* [x] Project setup
+* [ ] Authentication
+* [ ] Dashboard
+* [ ] Ticket CRUD
+* [ ] Search
+* [ ] Filters
+* [ ] Responsive layout
+
+## Version 2.0
+
+* [ ] Angular Material
+* [ ] User roles
+* [ ] Comments
+* [ ] Notifications
+* [ ] Reports
+* [ ] File uploads
+
+## Version 3.0
+
+* [ ] REST API
+* [ ] JWT Authentication
+* [ ] PostgreSQL
+* [ ] Docker
+* [ ] Deployment
+
+---
+
+# 💻 Architecture
+
+```text
+Presentation
+      │
+Components
+      │
+Services
+      │
+Guards
+      │
+Models
+      │
+Local Storage / REST API
 ```
 
-## Building
+---
 
-To build the project run:
+# 📚 Learning Goals
+
+This project focuses on improving skills in:
+
+* Angular Architecture
+* TypeScript
+* Reactive Forms
+* Route Guards
+* State Management
+* Component Communication
+* SOLID Principles
+* Clean Code
+* Responsive Design
+* REST API Integration
+
+---
+
+# 🌟 Future Improvements
+
+* Dashboard with charts
+* Email notifications
+* Ticket assignment
+* Activity history
+* Team management
+* SLA monitoring
+* Dark mode
+* Progressive Web App (PWA)
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome.
+
+1. Fork the repository
+
+2. Create a feature branch
 
 ```bash
-ng build
+git checkout -b feature/new-feature
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+3. Commit your changes
 
 ```bash
-ng test
+git commit -m "feat: add new feature"
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+4. Push to your branch
 
 ```bash
-ng e2e
+git push origin feature/new-feature
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+5. Open a Pull Request
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+# 👨‍💻 Author
+
+**César Augusto Pacheco Ferreira**
+
+Full Stack Developer
+
+💼 LinkedIn: https://www.linkedin.com/in/capf01/
+
+🐙 GitHub: https://github.com/capf01
+
+---
+
+<p align="center">
+Made with ❤️ using Angular
+</p>
