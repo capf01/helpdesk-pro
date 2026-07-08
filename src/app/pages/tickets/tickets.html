@@ -92,6 +92,27 @@
 
     <h2>Lista de Chamados</h2>
 
+    <div class="filters">
+
+      <input
+        type="text"
+        placeholder="Pesquisar chamado..."
+        [(ngModel)]="termoPesquisa"
+        (input)="aplicarFiltros()">
+
+      <select
+        [(ngModel)]="filtroStatus"
+        (change)="aplicarFiltros()">
+
+        <option value="">Todos os status</option>
+        <option value="Aberto">Aberto</option>
+        <option value="Em atendimento">Em atendimento</option>
+        <option value="Finalizado">Finalizado</option>
+
+      </select>
+
+    </div>
+
     <table>
 
       <thead>
@@ -107,7 +128,7 @@
 
       <tbody>
 
-        <tr *ngFor="let ticket of tickets">
+        <tr *ngFor="let ticket of ticketsFiltrados">
           <td>{{ ticket.titulo }}</td>
           <td>{{ ticket.categoria }}</td>
           <td>{{ ticket.prioridade }}</td>
@@ -124,9 +145,9 @@
           </td>
         </tr>
 
-        <tr *ngIf="tickets.length === 0">
+        <tr *ngIf="ticketsFiltrados.length === 0">
           <td colspan="6" class="empty">
-            Nenhum chamado cadastrado.
+            Nenhum chamado encontrado.
           </td>
         </tr>
 

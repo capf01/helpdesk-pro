@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
@@ -14,7 +15,7 @@ import { TicketService } from '../../services/ticket';
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './tickets.html',
   styleUrl: './tickets.css'
 })
@@ -25,9 +26,24 @@ import { TicketService } from '../../services/ticket';
 export class Tickets implements OnInit {
 
   /**
-   * Lista exibida na tabela.
+   * Lista original de chamados.
    */
   tickets: Ticket[] = [];
+
+  /**
+   * Lista filtrada exibida na tabela.
+   */
+  ticketsFiltrados: Ticket[] = [];
+
+  /**
+   * Termo utilizado na pesquisa.
+   */
+  termoPesquisa = '';
+
+  /**
+   * Status selecionado no filtro.
+   */
+  filtroStatus = '';
 
   /**
    * Formulário utilizado para criar
@@ -80,6 +96,28 @@ export class Tickets implements OnInit {
    */
   private carregarTickets(): void {
     this.tickets = this.ticketService.listar();
+    this.aplicarFiltros();
+  }
+
+  /**
+   * Aplica pesquisa por texto e filtro por status
+   * sobre a lista de chamados.
+   */
+  aplicarFiltros(): void {
+    const textoPesquisa = this.termoPesquisa.toLowerCase();
+
+    this.ticketsFiltrados = this.tickets.filter(ticket => {
+      const correspondePesquisa =
+        ticket.titulo.toLowerCase().includes(textoPesquisa) ||
+        ticket.categoria.toLowerCase().includes(textoPesquisa) ||
+        ticket.prioridade.toLowerCase().includes(textoPesquisa) ||
+        ticket.status.toLowerCase().includes(textoPesquisa);
+
+      const correspondeStatus =
+        !this.filtroStatus || ticket.status === this.filtroStatus;
+
+      return correspondePesquisa && correspondeStatus;
+    });
   }
 
   /**
