@@ -1,88 +1,185 @@
+<!--
+===============================================================================
+Dashboard Principal
+
+Tela responsável pela apresentação dos indicadores da aplicação
+e da listagem dos chamados cadastrados.
+
+Autor: César Augusto Pacheco Ferreira
+Projeto: HelpDesk Pro
+===============================================================================
+-->
+
 <div class="layout">
 
-  <aside class="sidebar">
-    <h2>HelpDesk Pro</h2>
+    <!-- ==========================================================
+         Sidebar
+         ========================================================== -->
+    <aside class="sidebar">
 
-    <nav>
-      <a>Dashboard</a>
-      <a>Chamados</a>
-      <a>Usuários</a>
-      <a>Configurações</a>
-    </nav>
-  </aside>
+        <h2>HelpDesk Pro</h2>
 
-  <main class="main">
+        <nav>
 
-    <header class="navbar">
-      <h1>Dashboard</h1>
+            <a routerLink="/dashboard">Dashboard</a>
+            
+            <a routerLink="/tickets">Chamados</a>
 
-      <button>
-        Sair
-      </button>
-    </header>
+            <a href="#">Usuários</a>
 
-    <section class="cards">
+            <a href="#">Configurações</a>
 
-      <div class="card">
-        <span>Total de Chamados</span>
-        <strong>24</strong>
-      </div>
+        </nav>
 
-      <div class="card">
-        <span>Abertos</span>
-        <strong>8</strong>
-      </div>
+    </aside>
 
-      <div class="card">
-        <span>Em Atendimento</span>
-        <strong>10</strong>
-      </div>
+    <!-- ==========================================================
+         Área principal
+         ========================================================== -->
+    <main class="main">
 
-      <div class="card">
-        <span>Finalizados</span>
-        <strong>6</strong>
-      </div>
+        <!-- Barra superior -->
+        <header class="navbar">
 
-    </section>
+            <h1>Dashboard</h1>
 
-    <section class="content">
-      <h2>Últimos Chamados</h2>
+            <button
+                type="button"
+                (click)="sair()">
 
-      <table>
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Categoria</th>
-            <th>Prioridade</th>
-            <th>Status</th>
-          </tr>
-        </thead>
+                Sair
 
-        <tbody>
-          <tr>
-            <td>Erro no sistema</td>
-            <td>Software</td>
-            <td>Alta</td>
-            <td>Aberto</td>
-          </tr>
+            </button>
 
-          <tr>
-            <td>Computador não liga</td>
-            <td>Hardware</td>
-            <td>Média</td>
-            <td>Em atendimento</td>
-          </tr>
+        </header>
 
-          <tr>
-            <td>Solicitação de acesso</td>
-            <td>Usuário</td>
-            <td>Baixa</td>
-            <td>Finalizado</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        <!-- ======================================================
+             Indicadores
+             ====================================================== -->
+        <section class="cards">
 
-  </main>
+            <div class="card">
+
+                <span>Total de Chamados</span>
+
+                <strong>
+
+                    {{ totalChamados }}
+
+                </strong>
+
+            </div>
+
+            <div class="card">
+
+                <span>Abertos</span>
+
+                <strong>
+
+                    {{ chamadosAbertos }}
+
+                </strong>
+
+            </div>
+
+            <div class="card">
+
+                <span>Em Atendimento</span>
+
+                <strong>
+
+                    {{ chamadosAtendimento }}
+
+                </strong>
+
+            </div>
+
+            <div class="card">
+
+                <span>Finalizados</span>
+
+                <strong>
+
+                    {{ chamadosFinalizados }}
+
+                </strong>
+
+            </div>
+
+        </section>
+
+        <!-- ======================================================
+             Tabela de Chamados
+             ====================================================== -->
+        <section class="content">
+
+            <h2>
+
+                Últimos Chamados
+
+            </h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Título</th>
+
+                        <th>Categoria</th>
+
+                        <th>Prioridade</th>
+
+                        <th>Status</th>
+
+                        <th>Data</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!--
+                        Renderiza dinamicamente
+                        todos os chamados.
+                    -->
+                    <tr *ngFor="let ticket of tickets">
+
+                        <td>{{ ticket.titulo }}</td>
+
+                        <td>{{ ticket.categoria }}</td>
+
+                        <td>{{ ticket.prioridade }}</td>
+
+                        <td>{{ ticket.status }}</td>
+
+                        <td>{{ ticket.dataAbertura }}</td>
+
+                    </tr>
+
+                    <!--
+                        Estado vazio da tabela.
+                    -->
+                    <tr *ngIf="tickets.length === 0">
+
+                        <td
+                            colspan="5"
+                            style="text-align:center">
+
+                            Nenhum chamado encontrado.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+    </main>
 
 </div>
