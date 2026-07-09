@@ -86,8 +86,29 @@ Projeto: HelpDesk Pro
           <tr *ngFor="let ticket of tickets">
             <td>{{ ticket.titulo }}</td>
             <td>{{ ticket.categoria }}</td>
-            <td>{{ ticket.prioridade }}</td>
-            <td>{{ ticket.status }}</td>
+            <td>
+  <span
+    class="badge"
+    [ngClass]="{
+      'priority-low': ticket.prioridade === 'Baixa',
+      'priority-medium': ticket.prioridade === 'Média',
+      'priority-high': ticket.prioridade === 'Alta'
+    }">
+    {{ ticket.prioridade }}
+  </span>
+</td>
+
+<td>
+  <span
+    class="badge"
+    [ngClass]="{
+      'status-open': ticket.status === 'Aberto',
+      'status-progress': ticket.status === 'Em atendimento',
+      'status-done': ticket.status === 'Finalizado'
+    }">
+    {{ ticket.status }}
+  </span>
+</td>>
             <td>{{ ticket.dataAbertura }}</td>
           </tr>
 
