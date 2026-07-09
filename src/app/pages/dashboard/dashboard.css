@@ -184,5 +184,41 @@ td {
   background: #d1fae5;
   color: #065f46;
 }
+.theme-button {
+  background: #111827;
+  color: white;
+  margin-right: 10px;
+}
 
+.dark-theme {
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.dark-theme .main {
+  background: #0f172a;
+}
+
+.dark-theme .navbar,
+.dark-theme .card,
+.dark-theme .chart-card,
+.dark-theme .content {
+  background: #1e293b;
+  color: #e5e7eb;
+}
+
+.dark-theme .navbar h1,
+.dark-theme .content h2,
+.dark-theme .chart-card h2 {
+  color: #f9fafb;
+}
+
+.dark-theme table th {
+  background: #334155;
+  color: #f9fafb;
+}
+
+.dark-theme table td {
+  border-bottom-color: #334155;
+}
 }

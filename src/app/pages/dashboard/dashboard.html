@@ -10,117 +10,111 @@ Projeto: HelpDesk Pro
 ===============================================================================
 -->
 
-<div class="layout">
+<div class="layout" [class.dark-theme]="temaEscuro">
 
-  <aside class="sidebar">
-    <h2>HelpDesk Pro</h2>
+    <aside class="sidebar">
+        <h2>HelpDesk Pro</h2>
 
-    <nav>
-      <a routerLink="/dashboard">Dashboard</a>
-      <a routerLink="/tickets">Chamados</a>
-      <a href="#">Usuários</a>
-      <a href="#">Configurações</a>
-    </nav>
-  </aside>
+        <nav>
+            <a routerLink="/dashboard">Dashboard</a>
+            <a routerLink="/tickets">Chamados</a>
+            <a href="#">Usuários</a>
+            <a href="#">Configurações</a>
+        </nav>
+    </aside>
 
-  <main class="main">
+    <main class="main">
 
-    <header class="navbar">
-      <h1>Dashboard</h1>
+        <header class="navbar">
+            <h1>Dashboard</h1>
 
-      <button type="button" (click)="sair()">
-        Sair
-      </button>
-    </header>
+            <button type="button" (click)="sair()">
+                Sair
+            </button>
+        </header>
+        <button type="button" class="theme-button" (click)="alternarTema()">
+            {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
+        </button>
+        <section class="cards">
 
-    <section class="cards">
+            <div class="card">
+                <span>Total de Chamados</span>
+                <strong>{{ totalChamados }}</strong>
+            </div>
 
-      <div class="card">
-        <span>Total de Chamados</span>
-        <strong>{{ totalChamados }}</strong>
-      </div>
+            <div class="card">
+                <span>Abertos</span>
+                <strong>{{ chamadosAbertos }}</strong>
+            </div>
 
-      <div class="card">
-        <span>Abertos</span>
-        <strong>{{ chamadosAbertos }}</strong>
-      </div>
+            <div class="card">
+                <span>Em Atendimento</span>
+                <strong>{{ chamadosAtendimento }}</strong>
+            </div>
 
-      <div class="card">
-        <span>Em Atendimento</span>
-        <strong>{{ chamadosAtendimento }}</strong>
-      </div>
+            <div class="card">
+                <span>Finalizados</span>
+                <strong>{{ chamadosFinalizados }}</strong>
+            </div>
 
-      <div class="card">
-        <span>Finalizados</span>
-        <strong>{{ chamadosFinalizados }}</strong>
-      </div>
+        </section>
 
-    </section>
+        <section class="chart-card">
+            <h2>Chamados por Status</h2>
 
-    <section class="chart-card">
-      <h2>Chamados por Status</h2>
+            <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="chartType">
+            </canvas>
+        </section>
 
-      <canvas
-        baseChart
-        [data]="chartData"
-        [options]="chartOptions"
-        [type]="chartType">
-      </canvas>
-    </section>
+        <section class="content">
+            <h2>Últimos Chamados</h2>
 
-    <section class="content">
-      <h2>Últimos Chamados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Categoria</th>
+                        <th>Prioridade</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Título</th>
-            <th>Categoria</th>
-            <th>Prioridade</th>
-            <th>Status</th>
-            <th>Data</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let ticket of tickets">
-            <td>{{ ticket.titulo }}</td>
-            <td>{{ ticket.categoria }}</td>
-            <td>
-  <span
-    class="badge"
-    [ngClass]="{
+                <tbody>
+                    <tr *ngFor="let ticket of tickets">
+                        <td>{{ ticket.titulo }}</td>
+                        <td>{{ ticket.categoria }}</td>
+                        <td>
+                            <span class="badge" [ngClass]="{
       'priority-low': ticket.prioridade === 'Baixa',
       'priority-medium': ticket.prioridade === 'Média',
       'priority-high': ticket.prioridade === 'Alta'
     }">
-    {{ ticket.prioridade }}
-  </span>
-</td>
+                                {{ ticket.prioridade }}
+                            </span>
+                        </td>
 
-<td>
-  <span
-    class="badge"
-    [ngClass]="{
+                        <td>
+                            <span class="badge" [ngClass]="{
       'status-open': ticket.status === 'Aberto',
       'status-progress': ticket.status === 'Em atendimento',
       'status-done': ticket.status === 'Finalizado'
     }">
-    {{ ticket.status }}
-  </span>
-</td>>
-            <td>{{ ticket.dataAbertura }}</td>
-          </tr>
+                                {{ ticket.status }}
+                            </span>
+                        </td>>
+                        <td>{{ ticket.dataAbertura }}</td>
+                    </tr>
 
-          <tr *ngIf="tickets.length === 0">
-            <td colspan="5" style="text-align:center">
-              Nenhum chamado encontrado.
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+                    <tr *ngIf="tickets.length === 0">
+                        <td colspan="5" style="text-align:center">
+                            Nenhum chamado encontrado.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-  </main>
+    </main>
 
 </div>

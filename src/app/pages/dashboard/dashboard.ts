@@ -111,7 +111,17 @@ export class Dashboard {
 
     this.atualizarGrafico();
   }
+/**
+ * Controla o tema visual do dashboard.
+ */
+temaEscuro = false;
 
+/**
+ * Alterna entre tema claro e escuro.
+ */
+alternarTema(): void {
+  this.temaEscuro = !this.temaEscuro;
+}
   /**
    * Atualiza os dados utilizados pelo gráfico
    * com base nos indicadores do dashboard.
