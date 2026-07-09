@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
+import { BaseChartDirective } from 'ng2-charts';
+import {
+ ChartConfiguration,
+  ChartData,
+} from 'chart.js';
+
 import { AuthService } from '../../services/auth';
 import { Ticket } from '../../models/ticket';
 import { TicketService } from '../../services/ticket';
@@ -8,15 +15,15 @@ import { TicketService } from '../../services/ticket';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, BaseChartDirective],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
 /**
  * Página principal da aplicação.
  *
- * Responsável por apresentar indicadores
- * e os chamados mais recentes.
+ * Responsável por apresentar indicadores,
+ * chamados recentes e gráficos analíticos.
  */
 export class Dashboard {
 
@@ -35,6 +42,36 @@ export class Dashboard {
   chamadosAtendimento = 0;
 
   chamadosFinalizados = 0;
+
+  /**
+   * Tipo do gráfico exibido no dashboard.
+   */
+  chartType: 'bar' = 'bar';
+
+  /**
+   * Dados utilizados pelo gráfico de chamados por status.
+   */
+  chartData: ChartData<'bar'> = {
+    labels: ['Abertos', 'Em atendimento', 'Finalizados'],
+    datasets: [
+      {
+        label: 'Chamados',
+        data: [0, 0, 0]
+      }
+    ]
+  };
+
+  /**
+   * Configurações visuais do gráfico.
+   */
+  chartOptions: ChartConfiguration<'bar'>['options'] = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true
+      }
+    }
+  };
 
   constructor(
     private ticketService: TicketService,
@@ -71,5 +108,27 @@ export class Dashboard {
 
     this.chamadosFinalizados =
       this.ticketService.contarPorStatus('Finalizado');
+
+    this.atualizarGrafico();
+  }
+
+  /**
+   * Atualiza os dados utilizados pelo gráfico
+   * com base nos indicadores do dashboard.
+   */
+  private atualizarGrafico(): void {
+    this.chartData = {
+      labels: ['Abertos', 'Em atendimento', 'Finalizados'],
+      datasets: [
+        {
+          label: 'Chamados por status',
+          data: [
+            this.chamadosAbertos,
+            this.chamadosAtendimento,
+            this.chamadosFinalizados
+          ]
+        }
+      ]
+    };
   }
 }

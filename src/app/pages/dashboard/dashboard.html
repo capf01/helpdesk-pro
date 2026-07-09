@@ -2,8 +2,8 @@
 ===============================================================================
 Dashboard Principal
 
-Tela responsável pela apresentação dos indicadores da aplicação
-e da listagem dos chamados cadastrados.
+Tela responsável pela apresentação dos indicadores da aplicação,
+gráfico analítico e listagem dos chamados cadastrados.
 
 Autor: César Augusto Pacheco Ferreira
 Projeto: HelpDesk Pro
@@ -12,174 +12,94 @@ Projeto: HelpDesk Pro
 
 <div class="layout">
 
-    <!-- ==========================================================
-         Sidebar
-         ========================================================== -->
-    <aside class="sidebar">
-
-        <h2>HelpDesk Pro</h2>
-
-        <nav>
-
-            <a routerLink="/dashboard">Dashboard</a>
-            
-            <a routerLink="/tickets">Chamados</a>
-
-            <a href="#">Usuários</a>
-
-            <a href="#">Configurações</a>
-
-        </nav>
-
-    </aside>
-
-    <!-- ==========================================================
-         Área principal
-         ========================================================== -->
-    <main class="main">
-
-        <!-- Barra superior -->
-        <header class="navbar">
-
-            <h1>Dashboard</h1>
-
-            <button
-                type="button"
-                (click)="sair()">
-
-                Sair
-
-            </button>
-
-        </header>
-
-        <!-- ======================================================
-             Indicadores
-             ====================================================== -->
-        <section class="cards">
-
-            <div class="card">
-
-                <span>Total de Chamados</span>
-
-                <strong>
-
-                    {{ totalChamados }}
-
-                </strong>
-
-            </div>
-
-            <div class="card">
-
-                <span>Abertos</span>
-
-                <strong>
-
-                    {{ chamadosAbertos }}
-
-                </strong>
-
-            </div>
-
-            <div class="card">
-
-                <span>Em Atendimento</span>
-
-                <strong>
-
-                    {{ chamadosAtendimento }}
-
-                </strong>
-
-            </div>
-
-            <div class="card">
-
-                <span>Finalizados</span>
-
-                <strong>
-
-                    {{ chamadosFinalizados }}
-
-                </strong>
-
-            </div>
-
-        </section>
-
-        <!-- ======================================================
-             Tabela de Chamados
-             ====================================================== -->
-        <section class="content">
-
-            <h2>
-
-                Últimos Chamados
-
-            </h2>
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>Título</th>
-
-                        <th>Categoria</th>
-
-                        <th>Prioridade</th>
-
-                        <th>Status</th>
-
-                        <th>Data</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <!--
-                        Renderiza dinamicamente
-                        todos os chamados.
-                    -->
-                    <tr *ngFor="let ticket of tickets">
-
-                        <td>{{ ticket.titulo }}</td>
-
-                        <td>{{ ticket.categoria }}</td>
-
-                        <td>{{ ticket.prioridade }}</td>
-
-                        <td>{{ ticket.status }}</td>
-
-                        <td>{{ ticket.dataAbertura }}</td>
-
-                    </tr>
-
-                    <!--
-                        Estado vazio da tabela.
-                    -->
-                    <tr *ngIf="tickets.length === 0">
-
-                        <td
-                            colspan="5"
-                            style="text-align:center">
-
-                            Nenhum chamado encontrado.
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </section>
-
-    </main>
+  <aside class="sidebar">
+    <h2>HelpDesk Pro</h2>
+
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/tickets">Chamados</a>
+      <a href="#">Usuários</a>
+      <a href="#">Configurações</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <header class="navbar">
+      <h1>Dashboard</h1>
+
+      <button type="button" (click)="sair()">
+        Sair
+      </button>
+    </header>
+
+    <section class="cards">
+
+      <div class="card">
+        <span>Total de Chamados</span>
+        <strong>{{ totalChamados }}</strong>
+      </div>
+
+      <div class="card">
+        <span>Abertos</span>
+        <strong>{{ chamadosAbertos }}</strong>
+      </div>
+
+      <div class="card">
+        <span>Em Atendimento</span>
+        <strong>{{ chamadosAtendimento }}</strong>
+      </div>
+
+      <div class="card">
+        <span>Finalizados</span>
+        <strong>{{ chamadosFinalizados }}</strong>
+      </div>
+
+    </section>
+
+    <section class="chart-card">
+      <h2>Chamados por Status</h2>
+
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        [type]="chartType">
+      </canvas>
+    </section>
+
+    <section class="content">
+      <h2>Últimos Chamados</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Categoria</th>
+            <th>Prioridade</th>
+            <th>Status</th>
+            <th>Data</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let ticket of tickets">
+            <td>{{ ticket.titulo }}</td>
+            <td>{{ ticket.categoria }}</td>
+            <td>{{ ticket.prioridade }}</td>
+            <td>{{ ticket.status }}</td>
+            <td>{{ ticket.dataAbertura }}</td>
+          </tr>
+
+          <tr *ngIf="tickets.length === 0">
+            <td colspan="5" style="text-align:center">
+              Nenhum chamado encontrado.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
 
 </div>
