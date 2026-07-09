@@ -1,4 +1,6 @@
-<div class="tickets-page">
+<div
+  class="tickets-page"
+  [class.dark-theme]="temaEscuro">
 
   <header class="page-header">
 
@@ -7,23 +9,28 @@
       <p>Gerencie solicitações técnicas e acompanhe o atendimento.</p>
     </div>
 
-    <a
-      routerLink="/dashboard"
-      class="back-link">
+    <div class="header-actions">
 
-      Voltar para Dashboard
+      <a
+        routerLink="/dashboard"
+        class="back-link">
+        Voltar para Dashboard
+      </a>
 
-    </a>
+      <button
+        type="button"
+        class="theme-button"
+        (click)="alternarTema()">
+        {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
+      </button>
+
+    </div>
 
   </header>
 
   <section class="form-card">
 
-    <h2>
-
-      {{ editando ? 'Editar Chamado' : 'Novo Chamado' }}
-
-    </h2>
+    <h2>{{ editando ? 'Editar Chamado' : 'Novo Chamado' }}</h2>
 
     <form
       [formGroup]="ticketForm"
@@ -31,11 +38,7 @@
 
       <div class="form-grid">
 
-        <!-- ======================================================
-             Título
-             ====================================================== -->
         <div class="field">
-
           <label>Título</label>
 
           <input
@@ -45,92 +48,52 @@
 
           <small
             class="error"
-            *ngIf="ticketForm.get('titulo')?.touched &&
-                   ticketForm.get('titulo')?.invalid">
-
+            *ngIf="ticketForm.get('titulo')?.touched && ticketForm.get('titulo')?.invalid">
             Informe um título com pelo menos 3 caracteres.
-
           </small>
-
         </div>
 
-        <!-- ======================================================
-             Categoria
-             ====================================================== -->
         <div class="field">
-
           <label>Categoria</label>
 
           <select formControlName="categoria">
-
             <option value="">Selecione</option>
-
             <option value="Software">Software</option>
-
             <option value="Hardware">Hardware</option>
-
             <option value="Rede">Rede</option>
-
             <option value="Usuário">Usuário</option>
-
           </select>
 
           <small
             class="error"
-            *ngIf="ticketForm.get('categoria')?.touched &&
-                   ticketForm.get('categoria')?.invalid">
-
+            *ngIf="ticketForm.get('categoria')?.touched && ticketForm.get('categoria')?.invalid">
             Selecione uma categoria.
-
           </small>
-
         </div>
 
-        <!-- ======================================================
-             Prioridade
-             ====================================================== -->
         <div class="field">
-
           <label>Prioridade</label>
 
           <select formControlName="prioridade">
-
             <option value="Baixa">Baixa</option>
-
             <option value="Média">Média</option>
-
             <option value="Alta">Alta</option>
-
           </select>
-
         </div>
 
-        <!-- ======================================================
-             Status
-             ====================================================== -->
         <div class="field">
-
           <label>Status</label>
 
           <select formControlName="status">
-
             <option value="Aberto">Aberto</option>
-
             <option value="Em atendimento">Em atendimento</option>
-
             <option value="Finalizado">Finalizado</option>
-
           </select>
-
         </div>
 
       </div>
 
-      <!-- ==========================================================
-           Descrição
-           ========================================================== -->
       <div class="field">
-
         <label>Descrição</label>
 
         <textarea
@@ -141,33 +104,22 @@
 
         <small
           class="error"
-          *ngIf="ticketForm.get('descricao')?.touched &&
-                 ticketForm.get('descricao')?.invalid">
-
+          *ngIf="ticketForm.get('descricao')?.touched && ticketForm.get('descricao')?.invalid">
           Informe uma descrição com pelo menos 10 caracteres.
-
         </small>
-
       </div>
 
-      <!-- ==========================================================
-           Botões
-           ========================================================== -->
       <div class="actions">
 
         <button type="submit">
-
           {{ editando ? 'Atualizar' : 'Cadastrar' }}
-
         </button>
 
         <button
           type="button"
           class="secondary"
           (click)="limparFormulario()">
-
           Cancelar
-
         </button>
 
       </div>
@@ -176,9 +128,6 @@
 
   </section>
 
-  <!-- ==============================================================
-       Lista de Chamados
-       ============================================================== -->
   <section class="table-card">
 
     <h2>Lista de Chamados</h2>
@@ -194,15 +143,10 @@
       <select
         [(ngModel)]="filtroStatus"
         (change)="aplicarFiltros()">
-
         <option value="">Todos os status</option>
-
         <option value="Aberto">Aberto</option>
-
         <option value="Em atendimento">Em atendimento</option>
-
         <option value="Finalizado">Finalizado</option>
-
       </select>
 
     </div>
@@ -210,43 +154,23 @@
     <table>
 
       <thead>
-
         <tr>
-
           <th>Título</th>
-
           <th>Categoria</th>
-
           <th>Prioridade</th>
-
           <th>Status</th>
-
           <th>Data</th>
-
           <th>Ações</th>
-
         </tr>
-
       </thead>
 
       <tbody>
 
         <tr *ngFor="let ticket of ticketsFiltrados">
+          <td>{{ ticket.titulo }}</td>
+          <td>{{ ticket.categoria }}</td>
 
           <td>
-
-            {{ ticket.titulo }}
-
-          </td>
-
-          <td>
-
-            {{ ticket.categoria }}
-
-          </td>
-
-          <td>
-
             <span
               class="badge"
               [ngClass]="{
@@ -254,15 +178,11 @@
                 'priority-medium': ticket.prioridade === 'Média',
                 'priority-high': ticket.prioridade === 'Alta'
               }">
-
               {{ ticket.prioridade }}
-
             </span>
-
           </td>
 
           <td>
-
             <span
               class="badge"
               [ngClass]="{
@@ -270,51 +190,33 @@
                 'status-progress': ticket.status === 'Em atendimento',
                 'status-done': ticket.status === 'Finalizado'
               }">
-
               {{ ticket.status }}
-
             </span>
-
           </td>
 
-          <td>
-
-            {{ ticket.dataAbertura }}
-
-          </td>
+          <td>{{ ticket.dataAbertura }}</td>
 
           <td>
-
             <button
               class="edit"
               (click)="editar(ticket)">
-
               Editar
-
             </button>
 
             <button
               class="delete"
               (click)="excluir(ticket.id)">
-
               Excluir
-
             </button>
-
           </td>
-
         </tr>
 
         <tr *ngIf="ticketsFiltrados.length === 0">
-
           <td
             colspan="6"
             class="empty">
-
             Nenhum chamado encontrado.
-
           </td>
-
         </tr>
 
       </tbody>
@@ -322,5 +224,11 @@
     </table>
 
   </section>
+
+  <div
+    class="toast"
+    *ngIf="mostrarToast">
+    {{ mensagemToast }}
+  </div>
 
 </div>

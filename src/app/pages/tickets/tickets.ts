@@ -26,6 +26,16 @@ import { TicketService } from '../../services/ticket';
 export class Tickets implements OnInit {
 
   /**
+   * Mensagem exibida como feedback visual.
+   */
+  mensagemToast = '';
+
+  /**
+   * Controla a visibilidade do toast.
+   */
+  mostrarToast = false;
+
+  /**
    * Lista original de chamados.
    */
   tickets: Ticket[] = [];
@@ -44,6 +54,11 @@ export class Tickets implements OnInit {
    * Status selecionado no filtro.
    */
   filtroStatus = '';
+
+  /**
+   * Controla o tema visual da tela de chamados.
+   */
+  temaEscuro = localStorage.getItem('tema') === 'escuro';
 
   /**
    * Formulário utilizado para criar
@@ -74,6 +89,19 @@ export class Tickets implements OnInit {
   ngOnInit(): void {
     this.criarFormulario();
     this.carregarTickets();
+  }
+
+  /**
+   * Alterna o tema visual da aplicação
+   * e salva a preferência no navegador.
+   */
+  alternarTema(): void {
+    this.temaEscuro = !this.temaEscuro;
+
+    localStorage.setItem(
+      'tema',
+      this.temaEscuro ? 'escuro' : 'claro'
+    );
   }
 
   /**
@@ -138,8 +166,10 @@ export class Tickets implements OnInit {
       };
 
       this.ticketService.atualizar(ticketAtualizado);
+      this.exibirToast('Chamado atualizado com sucesso.');
     } else {
       this.ticketService.criar(this.ticketForm.value);
+      this.exibirToast('Chamado cadastrado com sucesso.');
     }
 
     this.limparFormulario();
@@ -175,6 +205,7 @@ export class Tickets implements OnInit {
 
     this.ticketService.excluir(id);
     this.carregarTickets();
+    this.exibirToast('Chamado excluído com sucesso.');
   }
 
   /**
@@ -189,5 +220,18 @@ export class Tickets implements OnInit {
 
     this.editando = false;
     this.ticketEditandoId = null;
+  }
+
+  /**
+   * Exibe uma mensagem temporária
+   * de feedback para o usuário.
+   */
+  private exibirToast(mensagem: string): void {
+    this.mensagemToast = mensagem;
+    this.mostrarToast = true;
+
+    setTimeout(() => {
+      this.mostrarToast = false;
+    }, 3000);
   }
 }
