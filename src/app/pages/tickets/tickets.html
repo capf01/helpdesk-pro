@@ -1,20 +1,28 @@
 <div class="tickets-page">
 
   <header class="page-header">
+
     <div>
       <h1>Chamados</h1>
       <p>Gerencie solicitações técnicas e acompanhe o atendimento.</p>
     </div>
 
-    <a routerLink="/dashboard" class="back-link">
+    <a
+      routerLink="/dashboard"
+      class="back-link">
+
       Voltar para Dashboard
+
     </a>
+
   </header>
 
   <section class="form-card">
 
     <h2>
+
       {{ editando ? 'Editar Chamado' : 'Novo Chamado' }}
+
     </h2>
 
     <form
@@ -23,71 +31,154 @@
 
       <div class="form-grid">
 
+        <!-- ======================================================
+             Título
+             ====================================================== -->
         <div class="field">
+
           <label>Título</label>
+
           <input
             type="text"
             formControlName="titulo"
             placeholder="Ex.: Erro ao acessar o sistema">
+
+          <small
+            class="error"
+            *ngIf="ticketForm.get('titulo')?.touched &&
+                   ticketForm.get('titulo')?.invalid">
+
+            Informe um título com pelo menos 3 caracteres.
+
+          </small>
+
         </div>
 
+        <!-- ======================================================
+             Categoria
+             ====================================================== -->
         <div class="field">
+
           <label>Categoria</label>
+
           <select formControlName="categoria">
+
             <option value="">Selecione</option>
+
             <option value="Software">Software</option>
+
             <option value="Hardware">Hardware</option>
+
             <option value="Rede">Rede</option>
+
             <option value="Usuário">Usuário</option>
+
           </select>
+
+          <small
+            class="error"
+            *ngIf="ticketForm.get('categoria')?.touched &&
+                   ticketForm.get('categoria')?.invalid">
+
+            Selecione uma categoria.
+
+          </small>
+
         </div>
 
+        <!-- ======================================================
+             Prioridade
+             ====================================================== -->
         <div class="field">
+
           <label>Prioridade</label>
+
           <select formControlName="prioridade">
+
             <option value="Baixa">Baixa</option>
+
             <option value="Média">Média</option>
+
             <option value="Alta">Alta</option>
+
           </select>
+
         </div>
 
+        <!-- ======================================================
+             Status
+             ====================================================== -->
         <div class="field">
+
           <label>Status</label>
+
           <select formControlName="status">
+
             <option value="Aberto">Aberto</option>
+
             <option value="Em atendimento">Em atendimento</option>
+
             <option value="Finalizado">Finalizado</option>
+
           </select>
+
         </div>
 
       </div>
 
+      <!-- ==========================================================
+           Descrição
+           ========================================================== -->
       <div class="field">
+
         <label>Descrição</label>
+
         <textarea
           rows="4"
           formControlName="descricao"
           placeholder="Descreva o problema informado pelo usuário.">
         </textarea>
+
+        <small
+          class="error"
+          *ngIf="ticketForm.get('descricao')?.touched &&
+                 ticketForm.get('descricao')?.invalid">
+
+          Informe uma descrição com pelo menos 10 caracteres.
+
+        </small>
+
       </div>
 
+      <!-- ==========================================================
+           Botões
+           ========================================================== -->
       <div class="actions">
+
         <button type="submit">
+
           {{ editando ? 'Atualizar' : 'Cadastrar' }}
+
         </button>
 
         <button
           type="button"
           class="secondary"
           (click)="limparFormulario()">
+
           Cancelar
+
         </button>
+
       </div>
 
     </form>
 
   </section>
 
+  <!-- ==============================================================
+       Lista de Chamados
+       ============================================================== -->
   <section class="table-card">
 
     <h2>Lista de Chamados</h2>
@@ -105,8 +196,11 @@
         (change)="aplicarFiltros()">
 
         <option value="">Todos os status</option>
+
         <option value="Aberto">Aberto</option>
+
         <option value="Em atendimento">Em atendimento</option>
+
         <option value="Finalizado">Finalizado</option>
 
       </select>
@@ -116,39 +210,111 @@
     <table>
 
       <thead>
+
         <tr>
+
           <th>Título</th>
+
           <th>Categoria</th>
+
           <th>Prioridade</th>
+
           <th>Status</th>
+
           <th>Data</th>
+
           <th>Ações</th>
+
         </tr>
+
       </thead>
 
       <tbody>
 
         <tr *ngFor="let ticket of ticketsFiltrados">
-          <td>{{ ticket.titulo }}</td>
-          <td>{{ ticket.categoria }}</td>
-          <td>{{ ticket.prioridade }}</td>
-          <td>{{ ticket.status }}</td>
-          <td>{{ ticket.dataAbertura }}</td>
+
           <td>
-            <button class="edit" (click)="editar(ticket)">
+
+            {{ ticket.titulo }}
+
+          </td>
+
+          <td>
+
+            {{ ticket.categoria }}
+
+          </td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="{
+                'priority-low': ticket.prioridade === 'Baixa',
+                'priority-medium': ticket.prioridade === 'Média',
+                'priority-high': ticket.prioridade === 'Alta'
+              }">
+
+              {{ ticket.prioridade }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <span
+              class="badge"
+              [ngClass]="{
+                'status-open': ticket.status === 'Aberto',
+                'status-progress': ticket.status === 'Em atendimento',
+                'status-done': ticket.status === 'Finalizado'
+              }">
+
+              {{ ticket.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            {{ ticket.dataAbertura }}
+
+          </td>
+
+          <td>
+
+            <button
+              class="edit"
+              (click)="editar(ticket)">
+
               Editar
+
             </button>
 
-            <button class="delete" (click)="excluir(ticket.id)">
+            <button
+              class="delete"
+              (click)="excluir(ticket.id)">
+
               Excluir
+
             </button>
+
           </td>
+
         </tr>
 
         <tr *ngIf="ticketsFiltrados.length === 0">
-          <td colspan="6" class="empty">
+
+          <td
+            colspan="6"
+            class="empty">
+
             Nenhum chamado encontrado.
+
           </td>
+
         </tr>
 
       </tbody>
