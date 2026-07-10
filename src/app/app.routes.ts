@@ -3,7 +3,7 @@ import { Tickets } from './pages/tickets/tickets';
 import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { AuthGuard } from './guards/auth-guard';
-
+import { Users } from './pages/users/users';
 export const routes: Routes = [
   {
     path: '',
@@ -26,6 +26,11 @@ export const routes: Routes = [
   {
   path: 'tickets',
   component: Tickets,
+  canActivate: [AuthGuard]
+},
+{
+  path: 'users',
+  component: Users,
   canActivate: [AuthGuard]
 }
 ];

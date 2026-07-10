@@ -1,0 +1,272 @@
+<!--
+===============================================================================
+Gerenciamento de Usuários
+
+Tela responsável pelo cadastro, edição, pesquisa e exclusão
+dos usuários do sistema HelpDesk Pro.
+
+Autor: César Augusto Pacheco Ferreira
+Projeto: HelpDesk Pro
+===============================================================================
+-->
+
+<div
+  class="users-page"
+  [class.dark-theme]="temaEscuro">
+
+  <!-- ============================================================
+       Cabeçalho da página
+       ============================================================ -->
+  <header class="page-header">
+
+    <div>
+      <h1>Usuários</h1>
+      <p>Gerencie usuários, perfis de acesso e situação cadastral.</p>
+    </div>
+
+    <div class="header-actions">
+
+      <a
+        routerLink="/dashboard"
+        class="back-link">
+        Voltar para Dashboard
+      </a>
+
+      <button
+        type="button"
+        class="theme-button"
+        (click)="alternarTema()">
+        {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- ============================================================
+       Formulário de cadastro e edição
+       ============================================================ -->
+  <section class="form-card">
+
+    <h2>
+      {{ editando ? 'Editar Usuário' : 'Novo Usuário' }}
+    </h2>
+
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="salvar()">
+
+      <div class="form-grid">
+
+        <!-- Nome -->
+        <div class="field">
+
+          <label for="nome">Nome</label>
+
+          <input
+            id="nome"
+            type="text"
+            formControlName="nome"
+            placeholder="Digite o nome completo">
+
+          <small
+            class="error"
+            *ngIf="userForm.get('nome')?.touched &&
+                   userForm.get('nome')?.invalid">
+            Informe um nome com pelo menos 3 caracteres.
+          </small>
+
+        </div>
+
+        <!-- E-mail -->
+        <div class="field">
+
+          <label for="email">E-mail</label>
+
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="usuario@empresa.com">
+
+          <small
+            class="error"
+            *ngIf="userForm.get('email')?.touched &&
+                   userForm.get('email')?.invalid">
+            Informe um endereço de e-mail válido.
+          </small>
+
+        </div>
+
+        <!-- Perfil -->
+        <div class="field">
+
+          <label for="perfil">Perfil</label>
+
+          <select
+            id="perfil"
+            formControlName="perfil">
+
+            <option value="Administrador">Administrador</option>
+            <option value="Técnico">Técnico</option>
+            <option value="Cliente">Cliente</option>
+
+          </select>
+
+        </div>
+
+        <!-- Situação -->
+        <div class="field checkbox-field">
+
+          <label>Situação</label>
+
+          <label class="checkbox-label">
+
+            <input
+              type="checkbox"
+              formControlName="ativo">
+
+            <span>Usuário ativo</span>
+
+          </label>
+
+        </div>
+
+      </div>
+
+      <!-- Ações do formulário -->
+      <div class="actions">
+
+        <button
+          type="submit"
+          class="primary-button">
+          {{ editando ? 'Atualizar' : 'Cadastrar' }}
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="limparFormulario()">
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  <!-- ============================================================
+       Listagem de usuários
+       ============================================================ -->
+  <section class="table-card">
+
+    <div class="table-header">
+
+      <h2>Usuários Cadastrados</h2>
+
+      <!-- Pesquisa em tempo real -->
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Pesquisar por nome, e-mail ou perfil..."
+        [(ngModel)]="termoPesquisa"
+        (input)="aplicarFiltro()">
+
+    </div>
+
+    <div class="table-responsive">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Situação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <!-- Renderiza os usuários encontrados -->
+          <tr *ngFor="let usuario of usuariosFiltrados">
+
+            <td>{{ usuario.nome }}</td>
+
+            <td>{{ usuario.email }}</td>
+
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'profile-admin': usuario.perfil === 'Administrador',
+                  'profile-tech': usuario.perfil === 'Técnico',
+                  'profile-client': usuario.perfil === 'Cliente'
+                }">
+                {{ usuario.perfil }}
+              </span>
+            </td>
+
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'status-active': usuario.ativo,
+                  'status-inactive': !usuario.ativo
+                }">
+                {{ usuario.ativo ? 'Ativo' : 'Inativo' }}
+              </span>
+            </td>
+
+            <td class="table-actions">
+
+              <button
+                type="button"
+                class="edit-button"
+                (click)="editar(usuario)">
+                Editar
+              </button>
+
+              <button
+                type="button"
+                class="delete-button"
+                (click)="excluir(usuario.id)">
+                Excluir
+              </button>
+
+            </td>
+
+          </tr>
+
+          <!-- Estado vazio -->
+          <tr *ngIf="usuariosFiltrados.length === 0">
+
+            <td
+              colspan="5"
+              class="empty">
+              Nenhum usuário encontrado.
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <!-- ============================================================
+       Mensagem de feedback
+       ============================================================ -->
+  <div
+    class="toast"
+    *ngIf="mostrarToast">
+    {{ mensagemToast }}
+  </div>
+
+</div>
