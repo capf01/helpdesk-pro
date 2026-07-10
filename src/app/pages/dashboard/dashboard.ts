@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
 
 import { BaseChartDirective } from 'ng2-charts';
 import {
- ChartConfiguration,
-  ChartData,
+  ChartConfiguration,
+  ChartData
 } from 'chart.js';
 
 import { AuthService } from '../../services/auth';
@@ -15,7 +18,11 @@ import { TicketService } from '../../services/ticket';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, BaseChartDirective],
+  imports: [
+    CommonModule,
+    RouterLink,
+    BaseChartDirective
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -28,31 +35,63 @@ import { TicketService } from '../../services/ticket';
 export class Dashboard {
 
   /**
-   * Lista utilizada pela tabela de chamados.
+   * Lista utilizada pela tabela
+   * de chamados recentes.
    */
   tickets: Ticket[] = [];
 
   /**
-   * Indicadores exibidos nos cards do dashboard.
+   * Quantidade total de chamados cadastrados.
    */
   totalChamados = 0;
 
+  /**
+   * Quantidade de chamados abertos.
+   */
   chamadosAbertos = 0;
 
+  /**
+   * Quantidade de chamados em atendimento.
+   */
   chamadosAtendimento = 0;
 
+  /**
+   * Quantidade de chamados finalizados.
+   */
   chamadosFinalizados = 0;
 
   /**
-   * Tipo do gráfico exibido no dashboard.
+   * Quantidade de chamados classificados
+   * com prioridade alta.
+   */
+  chamadosAltaPrioridade = 0;
+
+  /**
+   * Controla o tema visual do dashboard.
+   *
+   * A preferência armazenada no navegador
+   * é recuperada ao carregar o componente.
+   */
+  temaEscuro = localStorage.getItem('tema') === 'escuro';
+
+  /**
+   * Define o tipo do gráfico.
+   *
+   * O tipo literal evita incompatibilidade
+   * entre o template e os dados do Chart.js.
    */
   chartType: 'bar' = 'bar';
 
   /**
-   * Dados utilizados pelo gráfico de chamados por status.
+   * Dados utilizados pelo gráfico
+   * de chamados agrupados por status.
    */
   chartData: ChartData<'bar'> = {
-    labels: ['Abertos', 'Em atendimento', 'Finalizados'],
+    labels: [
+      'Abertos',
+      'Em atendimento',
+      'Finalizados'
+    ],
     datasets: [
       {
         label: 'Chamados',
@@ -62,13 +101,23 @@ export class Dashboard {
   };
 
   /**
-   * Configurações visuais do gráfico.
+   * Configurações visuais e comportamentais
+   * aplicadas ao gráfico do dashboard.
    */
   chartOptions: ChartConfiguration<'bar'>['options'] = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: true
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          precision: 0
+        }
       }
     }
   };
@@ -82,11 +131,25 @@ export class Dashboard {
   }
 
   /**
+   * Alterna entre os temas claro e escuro
+   * e salva a preferência no navegador.
+   */
+  alternarTema(): void {
+    this.temaEscuro = !this.temaEscuro;
+
+    localStorage.setItem(
+      'tema',
+      this.temaEscuro ? 'escuro' : 'claro'
+    );
+  }
+
+  /**
    * Encerra a sessão atual e redireciona
    * o usuário para a tela de login.
    */
   sair(): void {
     this.authService.logout();
+
     this.router.navigate(['/login']);
   }
 
@@ -109,26 +172,25 @@ export class Dashboard {
     this.chamadosFinalizados =
       this.ticketService.contarPorStatus('Finalizado');
 
+    this.chamadosAltaPrioridade =
+      this.tickets.filter(
+        ticket => ticket.prioridade === 'Alta'
+      ).length;
+
     this.atualizarGrafico();
   }
-/**
- * Controla o tema visual do dashboard.
- */
-temaEscuro = false;
 
-/**
- * Alterna entre tema claro e escuro.
- */
-alternarTema(): void {
-  this.temaEscuro = !this.temaEscuro;
-}
   /**
-   * Atualiza os dados utilizados pelo gráfico
-   * com base nos indicadores do dashboard.
+   * Atualiza o gráfico com base nos indicadores
+   * calculados a partir dos chamados cadastrados.
    */
   private atualizarGrafico(): void {
     this.chartData = {
-      labels: ['Abertos', 'Em atendimento', 'Finalizados'],
+      labels: [
+        'Abertos',
+        'Em atendimento',
+        'Finalizados'
+      ],
       datasets: [
         {
           label: 'Chamados por status',

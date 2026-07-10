@@ -37,27 +37,37 @@ Projeto: HelpDesk Pro
         </button>
         <section class="cards">
 
-            <div class="card">
-                <span>Total de Chamados</span>
-                <strong>{{ totalChamados }}</strong>
-            </div>
+  <div class="card total">
+    <span>📊 Total de Chamados</span>
+    <strong>{{ totalChamados }}</strong>
+    <small>Chamados registrados no sistema</small>
+  </div>
 
-            <div class="card">
-                <span>Abertos</span>
-                <strong>{{ chamadosAbertos }}</strong>
-            </div>
+  <div class="card aberto">
+    <span>🟦 Abertos</span>
+    <strong>{{ chamadosAbertos }}</strong>
+    <small>Aguardando atendimento</small>
+  </div>
 
-            <div class="card">
-                <span>Em Atendimento</span>
-                <strong>{{ chamadosAtendimento }}</strong>
-            </div>
+  <div class="card atendimento">
+    <span>🛠 Em Atendimento</span>
+    <strong>{{ chamadosAtendimento }}</strong>
+    <small>Chamados em andamento</small>
+  </div>
 
-            <div class="card">
-                <span>Finalizados</span>
-                <strong>{{ chamadosFinalizados }}</strong>
-            </div>
+  <div class="card finalizado">
+    <span>✅ Finalizados</span>
+    <strong>{{ chamadosFinalizados }}</strong>
+    <small>Chamados concluídos</small>
+  </div>
 
-        </section>
+  <div class="card prioridade">
+    <span>⚠ Alta Prioridade</span>
+    <strong>{{ chamadosAltaPrioridade }}</strong>
+    <small>Demandas críticas</small>
+  </div>
+
+</section>
 
         <section class="chart-card">
             <h2>Chamados por Status</h2>
