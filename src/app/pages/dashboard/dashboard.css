@@ -256,4 +256,24 @@ td {
 .card.prioridade {
   border-left-color: #ef4444;
 }
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logout-button {
+  background: #ef4444;
+  color: white;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.empty {
+  text-align: center;
+  color: #6b7280;
+}
 }

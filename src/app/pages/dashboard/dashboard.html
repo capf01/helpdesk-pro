@@ -10,121 +10,182 @@ Projeto: HelpDesk Pro
 ===============================================================================
 -->
 
-<div class="layout" [class.dark-theme]="temaEscuro">
+<div
+  class="layout"
+  [class.dark-theme]="temaEscuro">
 
-    <aside class="sidebar">
-        <h2>HelpDesk Pro</h2>
+  <!-- ============================================================
+       Barra lateral
+       ============================================================ -->
+  <aside class="sidebar">
 
-        <nav>
-            <a routerLink="/dashboard">Dashboard</a>
-            <a routerLink="/tickets">Chamados</a>
-            <a href="#">Usuários</a>
-            <a href="#">Configurações</a>
-        </nav>
-    </aside>
+    <h2>HelpDesk Pro</h2>
 
-    <main class="main">
+    <nav>
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/tickets">Chamados</a>
+      <a routerLink="/users">Usuários</a>
+      <a routerLink="/settings">Configurações</a>
+    </nav>
 
-        <header class="navbar">
-            <h1>Dashboard</h1>
+  </aside>
 
-            <button type="button" (click)="sair()">
-                Sair
-            </button>
-        </header>
-        <button type="button" class="theme-button" (click)="alternarTema()">
-            {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
+  <!-- ============================================================
+       Conteúdo principal
+       ============================================================ -->
+  <main class="main">
+
+    <!-- Barra superior -->
+    <header class="navbar">
+
+      <h1>Dashboard</h1>
+
+      <div class="navbar-actions">
+
+        <button
+          type="button"
+          class="theme-button"
+          (click)="alternarTema()">
+          {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
         </button>
-        <section class="cards">
 
-  <div class="card total">
-    <span>📊 Total de Chamados</span>
-    <strong>{{ totalChamados }}</strong>
-    <small>Chamados registrados no sistema</small>
-  </div>
+        <button
+          type="button"
+          class="logout-button"
+          (click)="sair()">
+          Sair
+        </button>
 
-  <div class="card aberto">
-    <span>🟦 Abertos</span>
-    <strong>{{ chamadosAbertos }}</strong>
-    <small>Aguardando atendimento</small>
-  </div>
+      </div>
 
-  <div class="card atendimento">
-    <span>🛠 Em Atendimento</span>
-    <strong>{{ chamadosAtendimento }}</strong>
-    <small>Chamados em andamento</small>
-  </div>
+    </header>
 
-  <div class="card finalizado">
-    <span>✅ Finalizados</span>
-    <strong>{{ chamadosFinalizados }}</strong>
-    <small>Chamados concluídos</small>
-  </div>
+    <!-- ============================================================
+         Indicadores
+         ============================================================ -->
+    <section class="cards">
 
-  <div class="card prioridade">
-    <span>⚠ Alta Prioridade</span>
-    <strong>{{ chamadosAltaPrioridade }}</strong>
-    <small>Demandas críticas</small>
-  </div>
+      <div class="card total">
+        <span>Total de Chamados</span>
+        <strong>{{ totalChamados }}</strong>
+        <small>Chamados registrados no sistema</small>
+      </div>
 
-</section>
+      <div class="card aberto">
+        <span>Abertos</span>
+        <strong>{{ chamadosAbertos }}</strong>
+        <small>Aguardando atendimento</small>
+      </div>
 
-        <section class="chart-card">
-            <h2>Chamados por Status</h2>
+      <div class="card atendimento">
+        <span>Em Atendimento</span>
+        <strong>{{ chamadosAtendimento }}</strong>
+        <small>Chamados em andamento</small>
+      </div>
 
-            <canvas baseChart [data]="chartData" [options]="chartOptions" [type]="chartType">
-            </canvas>
-        </section>
+      <div class="card finalizado">
+        <span>Finalizados</span>
+        <strong>{{ chamadosFinalizados }}</strong>
+        <small>Chamados concluídos</small>
+      </div>
 
-        <section class="content">
-            <h2>Últimos Chamados</h2>
+      <div class="card prioridade">
+        <span>Alta Prioridade</span>
+        <strong>{{ chamadosAltaPrioridade }}</strong>
+        <small>Demandas críticas</small>
+      </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Categoria</th>
-                        <th>Prioridade</th>
-                        <th>Status</th>
-                        <th>Data</th>
-                    </tr>
-                </thead>
+    </section>
 
-                <tbody>
-                    <tr *ngFor="let ticket of tickets">
-                        <td>{{ ticket.titulo }}</td>
-                        <td>{{ ticket.categoria }}</td>
-                        <td>
-                            <span class="badge" [ngClass]="{
-      'priority-low': ticket.prioridade === 'Baixa',
-      'priority-medium': ticket.prioridade === 'Média',
-      'priority-high': ticket.prioridade === 'Alta'
-    }">
-                                {{ ticket.prioridade }}
-                            </span>
-                        </td>
+    <!-- ============================================================
+         Gráfico analítico
+         ============================================================ -->
+    <section class="chart-card">
 
-                        <td>
-                            <span class="badge" [ngClass]="{
-      'status-open': ticket.status === 'Aberto',
-      'status-progress': ticket.status === 'Em atendimento',
-      'status-done': ticket.status === 'Finalizado'
-    }">
-                                {{ ticket.status }}
-                            </span>
-                        </td>>
-                        <td>{{ ticket.dataAbertura }}</td>
-                    </tr>
+      <h2>Chamados por Status</h2>
 
-                    <tr *ngIf="tickets.length === 0">
-                        <td colspan="5" style="text-align:center">
-                            Nenhum chamado encontrado.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        [type]="chartType">
+      </canvas>
 
-    </main>
+    </section>
+
+    <!-- ============================================================
+         Tabela de chamados recentes
+         ============================================================ -->
+    <section class="content">
+
+      <h2>Últimos Chamados</h2>
+
+      <div class="table-responsive">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Categoria</th>
+              <th>Prioridade</th>
+              <th>Status</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr *ngFor="let ticket of tickets">
+
+              <td>{{ ticket.titulo }}</td>
+
+              <td>{{ ticket.categoria }}</td>
+
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'priority-low': ticket.prioridade === 'Baixa',
+                    'priority-medium': ticket.prioridade === 'Média',
+                    'priority-high': ticket.prioridade === 'Alta'
+                  }">
+                  {{ ticket.prioridade }}
+                </span>
+              </td>
+
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'status-open': ticket.status === 'Aberto',
+                    'status-progress': ticket.status === 'Em atendimento',
+                    'status-done': ticket.status === 'Finalizado'
+                  }">
+                  {{ ticket.status }}
+                </span>
+              </td>
+
+              <td>{{ ticket.dataAbertura }}</td>
+
+            </tr>
+
+            <tr *ngIf="tickets.length === 0">
+              <td
+                colspan="5"
+                class="empty">
+                Nenhum chamado encontrado.
+              </td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
 
 </div>

@@ -4,6 +4,7 @@ import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { AuthGuard } from './guards/auth-guard';
 import { Users } from './pages/users/users';
+import { Settings } from './pages/settings/settings';
 export const routes: Routes = [
   {
     path: '',
@@ -31,6 +32,11 @@ export const routes: Routes = [
 {
   path: 'users',
   component: Users,
+  canActivate: [AuthGuard]
+},
+{
+  path: 'settings',
+  component: Settings,
   canActivate: [AuthGuard]
 }
 ];

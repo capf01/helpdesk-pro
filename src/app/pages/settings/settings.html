@@ -1,0 +1,84 @@
+<div
+  class="settings-page"
+  [class.dark-theme]="temaEscuro">
+
+  <header class="page-header">
+    <div>
+      <h1>Configurações</h1>
+      <p>Personalize o comportamento do HelpDesk Pro.</p>
+    </div>
+
+    <div class="header-actions">
+      <a
+        routerLink="/dashboard"
+        class="back-link">
+        Voltar para Dashboard
+      </a>
+
+      <button
+        type="button"
+        class="theme-button"
+        (click)="alternarTema()">
+        {{ temaEscuro ? 'Tema Claro' : 'Tema Escuro' }}
+      </button>
+    </div>
+  </header>
+
+  <section class="settings-card">
+
+    <h2>Preferências</h2>
+
+    <form
+      [formGroup]="settingsForm"
+      (ngSubmit)="salvarConfiguracoes()">
+
+      <label class="setting-item">
+        <div>
+          <strong>Notificações por e-mail</strong>
+          <span>Receber atualizações sobre chamados.</span>
+        </div>
+
+        <input
+          type="checkbox"
+          formControlName="notificacoesEmail">
+      </label>
+
+      <label class="setting-item">
+        <div>
+          <strong>Notificações no sistema</strong>
+          <span>Exibir alertas e mensagens internas.</span>
+        </div>
+
+        <input
+          type="checkbox"
+          formControlName="notificacoesSistema">
+      </label>
+
+      <label class="setting-item">
+        <div>
+          <strong>Modo compacto</strong>
+          <span>Reduzir espaçamentos da interface.</span>
+        </div>
+
+        <input
+          type="checkbox"
+          formControlName="modoCompacto">
+      </label>
+
+      <button
+        type="submit"
+        class="save-button">
+        Salvar configurações
+      </button>
+
+    </form>
+
+  </section>
+
+  <div
+    class="toast"
+    *ngIf="mostrarToast">
+    {{ mensagemToast }}
+  </div>
+
+</div>
